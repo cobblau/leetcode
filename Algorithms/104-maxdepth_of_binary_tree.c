@@ -18,38 +18,32 @@ The maximum depth is the number of nodes along the longest path from the root no
 int maxDepth(struct TreeNode* root) {
     struct TreeNode* queue[100000];
     struct TreeNode *p;
-    int head, tail, depth;
-    int cur_count, next_count;  //current level count, next level count
+    int head, tail, boundry, depth;
 
     if (root == NULL) {
         return 0;
     }
 
     head = tail = depth = 0;
-    cur_count = 1;
-    next_count = 0;
 
     queue[tail++] = root;
+
     while (head < tail) {
-        p = queue[head++];
+        boundry = tail;
 
-        cur_count--;
+        while (head < boundry) {
+            p = queue[head++];
 
-        if (p->left) {
-            queue[tail++] = p->left;
-            next_count++;
+            if (p->left) {
+                queue[tail++] = p->left;
+            }
+
+            if (p->right) {
+                queue[tail++] = p->right;
+            }
         }
 
-        if (p->right) {
-            queue[tail++] = p->right;
-            next_count++;
-        }
-
-        if (cur_count == 0) {
-            depth++;
-            cur_count = next_count;
-            next_count = 0;
-        }
+        depth++;
     }
 
     return depth;
