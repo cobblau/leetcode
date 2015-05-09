@@ -49,8 +49,8 @@ int maxDepth(struct TreeNode* root) {
     return depth;
 }
 
-/*  below is a after Order traverse
-int afterOrder(struct TreeNode* root) {
+/*  below is a post Order traverse
+int postOrder(struct TreeNode* root) {
     struct TreeNode* stack[2048];
     int pos = 0, max = 0;
     struct TreeNode *p, *pre = NULL;
