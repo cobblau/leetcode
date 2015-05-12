@@ -1,4 +1,10 @@
 /*
+ * Author: Cobbliu
+ * Email: cobblau@gmail.com
+ */
+
+
+/*
 Reverse a singly linked list.
  */
 

@@ -1,4 +1,10 @@
 /*
+ * Author: Cobbliu
+ * Email: cobblau@gmail.com
+ */
+
+
+/*
 Given a linked list, determine if it has a cycle in it.
  */
 
