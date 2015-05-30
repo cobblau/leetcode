@@ -1,3 +1,7 @@
+#
+# Author: Cobblau
+# Email: cobblau@gmail.com
+#
 # solution 1
 SELECT a.Id
 FROM Weather a, Weather b
