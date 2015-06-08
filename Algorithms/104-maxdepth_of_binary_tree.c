@@ -20,7 +20,6 @@ The maximum depth is the number of nodes along the longest path from the root no
  *     struct TreeNode *right;
  * };
  */
-
 int maxDepth(struct TreeNode* root) {
     struct TreeNode* queue[100000];
     struct TreeNode *p;
