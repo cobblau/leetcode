@@ -26,12 +26,12 @@ int containsDuplicate(int* nums, int numsSize) {
 
     struct Hash *set = (struct Hash*) malloc(sizeof(struct Hash));
 
-    set->cap = numsSize * 3 / 4;
+    set->cap = numsSize;
     set->slots = (struct Elem **) calloc(sizeof(struct Elem *), set->cap);
 
 
     for (int i = 0; i < numsSize; i++) {
-        int index = nums[i] % set->cap;
+        int index = (unsigned int) nums[i] % set->cap;
 
         if (set->slots[index] == NULL) {
             e = (struct Elem*) malloc(sizeof(struct Elem));
