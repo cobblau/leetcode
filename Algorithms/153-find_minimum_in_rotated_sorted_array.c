@@ -31,7 +31,6 @@ int findMin(int* nums, int numsSize) {
     while (start < end) {
         int mid = (start + end) / 2;
 
-        /* these two if can not be reversed */
         if (nums[mid] < nums[end]) {
             end = mid;
             continue;
