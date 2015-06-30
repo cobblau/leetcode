@@ -29,6 +29,7 @@ return true, as there exist a root-to-leaf path 5->4->11->2 which sum is 22.
  *     struct TreeNode *right;
  * };
  */
+/*
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -38,7 +39,9 @@ struct TreeNode {
     struct TreeNode *left;
     struct TreeNode *right;
 };
+*/
 
+/* recursion version */
 bool hasPathSum(struct TreeNode* root, int sum) {
     if (root == NULL) {
         return false;
@@ -51,49 +54,62 @@ bool hasPathSum(struct TreeNode* root, int sum) {
     return hasPathSum(root->left, sum-root->val) || hasPathSum(root->right, sum-root->val);
 }
 
+/* iterative version */
 bool hasPathSum2(struct TreeNode* root, int sum) {
-    struct TreeNode *stack[2048], *p, *t;
+    struct TreeNode *stack[2048];
+    struct TreeNode *p, *pre;
     int pos = 0;
 
     if (root == NULL) {
         return false;
     }
 
-    stack[pos++] = root;
+    pre = p = NULL;
+    p = root;
 
-    while (pos) {
-        p = stack[pos-1];
-
-        while (p->left) {
+    while (p != NULL || pos) {
+        while (p) {
             stack[pos++] = p;
             p = p->left;
         }
 
-        if (!p->right) {
+        p = stack[pos-1];
+
+        if (!p->left && !p->right) {
             int cur = 0;
-            for (int i = 0; i <= pos; i++) {
+            for (int i = 0; i < pos; i++) {
                 cur += stack[i]->val;
             }
 
             if (cur == sum) {
                 return true;
             }
+        }
 
+        if (!p->right || pre == p->right) {
+            pre = p;
             pos--;
+            p = NULL;
         } else {
-            stack[pos++] = p->right;
+            p = p->right;
         }
     }
 
     return false;
 }
 
+/*
 int main()
 {
     struct TreeNode *root = (struct TreeNode*) malloc(sizeof(struct TreeNode));
-
     root->left = root->right = NULL;
     root->val = 1;
 
+    struct TreeNode *p = (struct TreeNode*) malloc(sizeof(struct TreeNode));
+    p->left = p->right = NULL;
+    p->val = 2;
+
+    root->left = p;
     printf("%d\n", hasPathSum2(root, 1));
 }
+*/
