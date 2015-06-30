@@ -29,6 +29,16 @@ return true, as there exist a root-to-leaf path 5->4->11->2 which sum is 22.
  *     struct TreeNode *right;
  * };
  */
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+struct TreeNode {
+    int val;
+    struct TreeNode *left;
+    struct TreeNode *right;
+};
+
 bool hasPathSum(struct TreeNode* root, int sum) {
     if (root == NULL) {
         return false;
@@ -39,4 +49,51 @@ bool hasPathSum(struct TreeNode* root, int sum) {
     }
 
     return hasPathSum(root->left, sum-root->val) || hasPathSum(root->right, sum-root->val);
+}
+
+bool hasPathSum2(struct TreeNode* root, int sum) {
+    struct TreeNode *stack[2048], *p, *t;
+    int pos = 0;
+
+    if (root == NULL) {
+        return false;
+    }
+
+    stack[pos++] = root;
+
+    while (pos) {
+        p = stack[pos-1];
+
+        while (p->left) {
+            stack[pos++] = p;
+            p = p->left;
+        }
+
+        if (!p->right) {
+            int cur = 0;
+            for (int i = 0; i <= pos; i++) {
+                cur += stack[i]->val;
+            }
+
+            if (cur == sum) {
+                return true;
+            }
+
+            pos--;
+        } else {
+            stack[pos++] = p->right;
+        }
+    }
+
+    return false;
+}
+
+int main()
+{
+    struct TreeNode *root = (struct TreeNode*) malloc(sizeof(struct TreeNode));
+
+    root->left = root->right = NULL;
+    root->val = 1;
+
+    printf("%d\n", hasPathSum2(root, 1));
 }
