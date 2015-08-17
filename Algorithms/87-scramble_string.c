@@ -45,11 +45,11 @@ We say that "rgtae" is a scrambled string of "great".
 Given two strings s1 and s2 of the same length, determine if s2 is a scrambled string of s1.
 */
 
-/*
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-*/
+
 
 int judge(char *s1, int i1, int n1, char *s2, int i2, int n2) {
     if (n1 != n2) {
@@ -87,18 +87,48 @@ int judge(char *s1, int i1, int n1, char *s2, int i2, int n2) {
     return 0;
 }
 
-int isScramble(char* s1, char* s2) {
+// recursive solution
+int isScramble2(char* s1, char* s2) {
     int len1 = strlen(s1);
     int len2 = strlen(s2);
 
     return judge(s1, 0, len1, s2, 0, len2);
 }
 
-/*
+// dp solution
+int isScramble(char* s1, char* s2) {
+    int len = strlen(s1);
+    int len2 = strlen(s2);
+
+    if (len != len2) {
+        return 0;
+    }
+
+    int dp[100][100][100] = {0};
+
+    for (int i = len - 1; i >= 0; i--) {
+        for (int j = len - 1; j >= 0; j--) {
+            if (s1[i] == s2[j]) {
+                dp[i][j][1] = 1;
+            }
+
+            for (int k = 2; i + k <= len && j + k <= len; k++) {
+                for (int d = 1; d < k; d++) {
+                    dp[i][j][k] |= dp[i][j][d] && dp[i+d][j+d][k-d];
+                    dp[i][j][k] |= dp[i][j+k-d][d] && dp[i+d][j][k-d];
+                }
+            }
+        }
+    }
+
+    return dp[0][0][len];
+}
+
+
+
 int main() {
     printf("%d\n", isScramble("aa", "aa"));
     printf("%d\n", isScramble("ab", "ba"));
     printf("%d\n", isScramble("ab", "bb"));
     printf("%d\n", isScramble("abb", "bba"));
 }
-*/
